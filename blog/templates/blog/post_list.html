@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog</title>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+    <h2>Post List</h2>
+    <!--Python 쓸 때는 중괄호로-->
+    {% for p in post_list %}    <!--post_list라고 자동으로 변수를 넘겨줌-->
+    <hr/>
+    <!--href="{{p.pk}}" 로 쉽게 해도됨-->
+    <h3><a href="{{ p.get_absolute_url }}/"> {{ p.title }} </a></h3>
+    <p>{{p.created_at}}</p>
+    <p>{{p.content}}</p> <!--model.py에 썼던 변수명과 동일하게 써야됨-->
+    {% endfor %}
+</body>
+</html>

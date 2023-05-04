@@ -1,24 +1,53 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blog</title>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-    </nav>
-    <h2>Post List</h2>
-    <!--Python 쓸 때는 중괄호로-->
-    {% for p in post_list %}    <!--post_list라고 자동으로 변수를 넘겨줌-->
-    <hr/>
-    <!--href="{{p.pk}}" 로 쉽게 해도됨-->
-    <h3><a href="{{ p.get_absolute_url }}/"> {{ p.title }} </a></h3>
-    <p>{{p.created_at}}</p>
-    <p>{{p.content}}</p> <!--model.py에 썼던 변수명과 동일하게 써야됨-->
-    {% endfor %}
-</body>
-</html>
+{% extends 'blog/base.html' %}
+{% block main_content %}
+<h1>Blog</h1>
+<!--Post 모델을 사용했으니 post_list라고 자동으로 인식함-->
+{% for p in post_list %}
+<!-- Blog post-->
+<div class="card mb-4">
+
+    <!--이미지가 있으면 보여주기, 없으면 임의의 이미지로-->
+    {% if p.head_image %}
+    <img class="card-img-top" src="{{ p.head_image.url }}" alt="{{ p }} head image"/> <!--alt는 이미지가 없을 때 보여줄 텍스트-->
+    {% else %}
+    <img class="card-img-top" src="https://picsum.photos/seed/{{ p.pk }}/1024/768" title="random image"
+         alt="random_image">
+    {% endif %}
+
+    <div class="card-body">
+        <div class="small text-muted">{{ p.created_at }}</div>
+        <h2 class="card-title">{{ p.title }}</h2>
+        <p class="card-text">{{ p.content | truncatewords:5 }}</p> <!--5단어 제한있음-->
+
+        <!--해시태그같은 요약문 있으면 흐린글씨로 보여주기-->
+        {% if p.hook_text %}
+        <h5 class="small text-muted">{{ p.hook_text }}</h5>
+        {% endif %}
+
+        <!--model 파일에 함수 정의해놓음 / 절대 경로-->
+        <a class="btn btn-primary" href="{{ p.get_absolute_url }}">Read more →</a>
+
+    </div>
+
+    <div class="card-footer text-muted">
+        Posted on {{ p.created_at }} by
+        <a href="#!">작성자명 쓸 위치 (개발 예정) </a>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Pagination -->
+<nav aria-label="Pagination">
+    <hr class="my-0"/>
+    <ul class="pagination justify-content-center my-4">
+        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+        </li>
+        <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
+        <li class="page-item"><a class="page-link" href="#!">2</a></li>
+        <li class="page-item"><a class="page-link" href="#!">3</a></li>
+        <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
+        <li class="page-item"><a class="page-link" href="#!">15</a></li>
+        <li class="page-item"><a class="page-link" href="#!">Older</a></li>
+    </ul>
+</nav>
+{% endblock %}

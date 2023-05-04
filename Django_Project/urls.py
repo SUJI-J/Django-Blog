@@ -13,12 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 #    아무것도 안쓰고 서버 페이지 접속하면 admin로 접속
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('single_pages.urls')),
-    path('blog/', include('blog.urls')), #blog  라고 쓰면 어디로 접속되게 할 건지
+    path('blog/', include('blog.urls')),  # blog  라고 쓰면 어디로 접속되게 할 건지
+    path('midterm/', include('midterm.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

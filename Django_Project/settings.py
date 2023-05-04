@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+#   앱 등록은 여기서 !!!
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'blog',
     'single_pages',
+    'midterm',
 ]
 
 MIDDLEWARE = [
@@ -104,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
-
+#   서울 시간으로 변경하기
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "Asia/Seoul"
@@ -118,6 +119,11 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+# blog/static 참조
+
+MEDIA_URL = '/media/' #url path
+MEDIA_ROOT = os.path.join(BASE_DIR, '_media') #server local directiry
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

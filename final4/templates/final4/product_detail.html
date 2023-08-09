@@ -1,0 +1,46 @@
+{% extends 'final4/base.html' %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+
+<div id="product-area">
+    <!-- Product header-->
+    <header class="mb-4">
+        <!-- Product title-->
+        <h1 class="fw-bolder mb-1">{{ product.name }}</h1>
+    </header>
+    <!-- Preview image figure-->
+    <figure class="mb-4">
+        <img class="img-fluid rounded" src="https://picsum.photos/seed/1/200/200" alt="random image"/>
+    </figure>
+    <!-- Post content-->
+    <section class="mb-5">
+        <div class="mb-1">개당 {{ product.price }}원</div>
+    </section>
+</div>
+
+<!-- user input -->
+<div class="card bg-light">
+    <div class="card-header">구매할 개수를 입력하세요.</div>
+    <div class="card-body">
+        <!-- 로그인 상태에서만 폼이 보임 -->
+        {% if user.is_authenticated %}
+        <form class="mb-4" id="sale-form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <!-- forms.py 파일에 별도로 작성한 폼이 위치할 곳-->
+                {{ product_form | crispy }}
+            </div>
+            <button type="submit" class="btn btn-outline-primary float-right">구매하기</button>
+        </form>
+        {% else %}
+        <!-- 로그인 안되어 있는 경우 보이는 내용 -->
+        <a role="button" class="btn btn-outline-dark btn-block btn-sm"
+           href="#" data-toggle="modal" data-target="#loginModal">Log In 후 구매 가능</a>
+        {% endif %}
+    </div>
+</div>
+<hr>
+
+{% endblock %}
+
+{% block widget %}상품 수령을 선택하세요.{% endblock %}

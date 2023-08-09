@@ -23,9 +23,12 @@ from django.conf.urls.static import static
 #    아무것도 안쓰고 서버 페이지 접속하면 admin로 접속
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('final4/', include('final4.urls')),
     path('', include('single_pages.urls')),
     path('blog/', include('blog.urls')),  # blog  라고 쓰면 어디로 접속되게 할 건지
     path('midterm/', include('midterm.urls')),
+    path('accounts/', include('allauth.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

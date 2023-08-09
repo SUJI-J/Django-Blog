@@ -1,11 +1,16 @@
 from django.shortcuts import render
+from blog.models import Post
 
 # Create your views here.
 def landing(request):
+    recent_posts = Post.objects.order_by('-pk')[:3]
     return render(
         request,
-        'single_pages/landing.html'
-        #   templates/single_pages/landing/about_me
+        'single_pages/landing.html',
+        {
+            'recent_posts' : recent_posts,
+        }
+        # templates/single_pages/landing/about_me
     )
 
 def about_me(request):
